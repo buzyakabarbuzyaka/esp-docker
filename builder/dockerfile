@@ -16,4 +16,5 @@ COPY ./src/app.cpp /src/app.cpp
 COPY ./esp-build-extract.sh /esp-build-extract.sh
 
 WORKDIR /makeEspArduino
+COPY ./libraries ./libraries
 CMD . /esp-build-extract.sh
