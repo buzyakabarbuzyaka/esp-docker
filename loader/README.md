@@ -4,4 +4,5 @@
 
 # RUN
 #### dir: ./esp-docker
-```docker run --device=/dev/ttyUSB0  -v ${PWD}/build:/build  -t esp-loader:latest```
+
+```docker run --privileged  -v ${PWD}/build:/build  -t esp-loader:latest```
