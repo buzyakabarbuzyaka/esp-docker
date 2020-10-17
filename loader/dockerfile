@@ -1,15 +1,19 @@
 FROM python:3.8
 
+ARG STABLE_COMMIT_ARDUINO_ESP32
+
 RUN python -m pip install --upgrade pip
 RUN pip install pyserial
 
 RUN apt-get update
 RUN apt-get install git
 
-RUN git clone https://github.com/espressif/arduino-esp32.git
-RUN cd arduino-esp32/tools && python get.py
+RUN git clone https://github.com/espressif/arduino-esp32.git && \
+cd /arduino-esp32 && \
+git checkout ${STABLE_COMMIT_ARDUINO_ESP32} && \
+cd ./tools && \
+python get.py
 
-# VOLUME /build
 COPY ./esp-flash.sh /esp-flash.sh
 
 WORKDIR /

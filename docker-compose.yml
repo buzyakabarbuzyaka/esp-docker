@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  builder:
+    container_name: "esp-builder"
+    build:
+      dockerfile: dockerfile
+      context: ./builder
+      args:
+        - STABLE_COMMIT_ARDUINO_ESP32=${STABLE_COMMIT_ARDUINO_ESP32}
+        - STABLE_COMMIT_MAKE_ESP_ARDUINO=${STABLE_COMMIT_MAKE_ESP_ARDUINO}
+    env_file:
+      - .env
+    volumes:
+      - ./build:/build
+    network_mode: "host"
+
+  loader:
+    container_name: "esp-loader"
+    build:
+      dockerfile: dockerfile
+      context: ./loader
+      args:
+        - STABLE_COMMIT_ARDUINO_ESP32=${STABLE_COMMIT_ARDUINO_ESP32}
+    env_file:
+      - .env
+    privileged: true
+    volumes:
+      - ./build:/build
+      - /dev:/dev
+    network_mode: "host"

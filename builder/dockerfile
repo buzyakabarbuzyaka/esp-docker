@@ -1,4 +1,6 @@
 FROM python:3.8
+ARG STABLE_COMMIT_ARDUINO_ESP32
+ARG STABLE_COMMIT_MAKE_ESP_ARDUINO
 
 RUN python -m pip install --upgrade pip
 RUN pip install pyserial
@@ -7,8 +9,17 @@ RUN apt-get update
 RUN apt-get install git
 RUN apt-get install make
 
-ADD ./arduino-esp32 /arduino-esp32
-ADD ./makeEspArduino /makeEspArduino
+WORKDIR /
+
+RUN git clone https://github.com/espressif/arduino-esp32.git && \
+cd /arduino-esp32 && \
+git checkout ${STABLE_COMMIT_ARDUINO_ESP32} && \
+cd ./tools && \
+python get.py
+
+RUN git clone https://github.com/plerup/makeEspArduino.git && \
+cd /makeEspArduino && \
+git checkout ${STABLE_COMMIT_MAKE_ESP_ARDUINO}
 
 COPY ./src/app.cpp /src/app.cpp
 COPY ./esp-build-extract.sh /esp-build-extract.sh
