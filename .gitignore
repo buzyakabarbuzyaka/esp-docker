@@ -1,7 +1,5 @@
 .idea/
 venv/
-arduino-esp32/
-makeEspArduino/
-build/*
 
+build/*
 !/build/.dust
